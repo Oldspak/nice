@@ -414,7 +414,7 @@ UICorner_12.Parent = Fling
 
 local UIS = game:GetService('UserInputService')
 
-local frame = script.Parent
+local frame = script.Parent.Parent
 
 
 
