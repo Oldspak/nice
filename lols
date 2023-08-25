@@ -1,0 +1,610 @@
+-- Gui to Lua
+-- Version: 3.2
+
+-- Instances:
+
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local Frame_2 = Instance.new("Frame")
+local UICorner_2 = Instance.new("UICorner")
+local Frame_3 = Instance.new("Frame")
+local UICorner_3 = Instance.new("UICorner")
+local TextLabel = Instance.new("TextLabel")
+local ESP = Instance.new("TextButton")
+local UICorner_4 = Instance.new("UICorner")
+local FLY = Instance.new("TextButton")
+local UICorner_5 = Instance.new("UICorner")
+local SIZE = Instance.new("TextButton")
+local UICorner_6 = Instance.new("UICorner")
+local Spam = Instance.new("TextButton")
+local UICorner_7 = Instance.new("UICorner")
+local walkwall = Instance.new("TextButton")
+local UICorner_8 = Instance.new("UICorner")
+local ClickTP = Instance.new("TextButton")
+local UICorner_9 = Instance.new("UICorner")
+local Speed = Instance.new("TextButton")
+local UICorner_10 = Instance.new("UICorner")
+local Jump = Instance.new("TextButton")
+local UICorner_11 = Instance.new("UICorner")
+local Fling = Instance.new("TextButton")
+local UICorner_12 = Instance.new("UICorner")
+
+--Properties:
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame.Position = UDim2.new(0.370624751, 0, 0.122336976, 0)
+Frame.Size = UDim2.new(0, 240, 0, 421)
+
+UICorner.Parent = Frame
+
+Frame_2.Parent = Frame
+Frame_2.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+Frame_2.Position = UDim2.new(0.0352989212, 0, 0.0475059375, 0)
+Frame_2.Size = UDim2.new(0, 222, 0, 381)
+
+UICorner_2.Parent = Frame_2
+
+Frame_3.Parent = Frame_2
+Frame_3.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame_3.Position = UDim2.new(-0.0664191693, 0, -0.0524934381, 0)
+Frame_3.Size = UDim2.new(0, 250, 0, 46)
+
+UICorner_3.Parent = Frame_3
+
+TextLabel.Parent = Frame_3
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.BackgroundTransparency = 1.000
+TextLabel.Size = UDim2.new(0, 241, 0, 39)
+TextLabel.Font = Enum.Font.FredokaOne
+TextLabel.Text = "D.O.R Raid Gui"
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextScaled = true
+TextLabel.TextSize = 14.000
+TextLabel.TextWrapped = true
+
+ESP.Name = "ESP"
+ESP.Parent = Frame_2
+ESP.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ESP.Position = UDim2.new(0.0699163228, 0, 0.146981627, 0)
+ESP.Size = UDim2.new(0, 190, 0, 22)
+ESP.Font = Enum.Font.FredokaOne
+ESP.Text = "ESP"
+ESP.TextColor3 = Color3.fromRGB(255, 255, 255)
+ESP.TextScaled = true
+ESP.TextSize = 14.000
+ESP.TextWrapped = true
+ESP.MouseButton1Down:connect(function()
+	local dwEntities = game:GetService("Players")
+	local dwLocalPlayer = dwEntities.LocalPlayer 
+	local dwRunService = game:GetService("RunService")
+
+	local settings_tbl = {
+		ESP_Enabled = true,
+		ESP_TeamCheck = false,
+		Chams = true,
+		Chams_Color = Color3.fromRGB(0,0,255),
+		Chams_Transparency = 0.1,
+		Chams_Glow_Color = Color3.fromRGB(255,0,0)
+	}
+
+	function destroy_chams(char)
+
+		for k,v in next, char:GetChildren() do 
+
+			if v:IsA("BasePart") and v.Transparency ~= 1 then
+
+				if v:FindFirstChild("Glow") and 
+					v:FindFirstChild("Chams") then
+
+					v.Glow:Destroy()
+					v.Chams:Destroy() 
+
+				end 
+
+			end 
+
+		end 
+
+	end
+
+	dwRunService.Heartbeat:Connect(function()
+
+		if settings_tbl.ESP_Enabled then
+
+			for k,v in next, dwEntities:GetPlayers() do 
+
+				if v ~= dwLocalPlayer then
+
+					if v.Character and
+						v.Character:FindFirstChild("HumanoidRootPart") and 
+						v.Character:FindFirstChild("Humanoid") and 
+						v.Character:FindFirstChild("Humanoid").Health ~= 0 then
+
+						if settings_tbl.ESP_TeamCheck == false then
+
+							local char = v.Character 
+
+							for k,b in next, char:GetChildren() do 
+
+								if b:IsA("BasePart") and 
+									b.Transparency ~= 1 then
+
+									if settings_tbl.Chams then
+
+										if not b:FindFirstChild("Glow") and
+											not b:FindFirstChild("Chams") then
+
+											local chams_box = Instance.new("BoxHandleAdornment", b)
+											chams_box.Name = "Chams"
+											chams_box.AlwaysOnTop = true 
+											chams_box.ZIndex = 4 
+											chams_box.Adornee = b 
+											chams_box.Color3 = settings_tbl.Chams_Color
+											chams_box.Transparency = settings_tbl.Chams_Transparency
+											chams_box.Size = b.Size + Vector3.new(0.02, 0.02, 0.02)
+
+											local glow_box = Instance.new("BoxHandleAdornment", b)
+											glow_box.Name = "Glow"
+											glow_box.AlwaysOnTop = false 
+											glow_box.ZIndex = 3 
+											glow_box.Adornee = b 
+											glow_box.Color3 = settings_tbl.Chams_Glow_Color
+											glow_box.Size = chams_box.Size + Vector3.new(0.13, 0.13, 0.13)
+
+										end
+
+									else
+
+										destroy_chams(char)
+
+									end
+
+								end
+
+							end
+
+						else
+
+							if v.Team == dwLocalPlayer.Team then
+								destroy_chams(v.Character)
+							end
+
+						end
+
+					else
+
+						destroy_chams(v.Character)
+
+					end
+
+				end
+
+			end
+
+		else 
+
+			for k,v in next, dwEntities:GetPlayers() do 
+
+				if v ~= dwLocalPlayer and 
+					v.Character and 
+					v.Character:FindFirstChild("HumanoidRootPart") and 
+					v.Character:FindFirstChild("Humanoid") and 
+					v.Character:FindFirstChild("Humanoid").Health ~= 0 then
+
+					destroy_chams(v.Character)
+
+				end
+
+			end
+
+		end
+
+	end)
+end)
+
+UICorner_4.Parent = ESP
+
+FLY.Name = "FLY"
+FLY.Parent = Frame_2
+FLY.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+FLY.Position = UDim2.new(0.0699163228, 0, 0.228346452, 0)
+FLY.Size = UDim2.new(0, 190, 0, 22)
+FLY.Font = Enum.Font.FredokaOne
+FLY.Text = "FLY"
+FLY.TextColor3 = Color3.fromRGB(255, 255, 255)
+FLY.TextScaled = true
+FLY.TextSize = 14.000
+FLY.TextWrapped = true
+FLY.MouseButton1Down:connect(function()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
+end)
+
+
+UICorner_5.Parent = FLY
+
+SIZE.Name = "SIZE"
+SIZE.Parent = Frame_2
+SIZE.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+SIZE.Position = UDim2.new(0.0699163228, 0, 0.307086617, 0)
+SIZE.Size = UDim2.new(0, 190, 0, 22)
+SIZE.Font = Enum.Font.FredokaOne
+SIZE.Text = "SIZE"
+SIZE.TextColor3 = Color3.fromRGB(255, 255, 255)
+SIZE.TextScaled = true
+SIZE.TextSize = 14.000
+SIZE.TextWrapped = true
+SIZE.MouseButton1Down:connect(function()
+	size = 5 -- from 1 to 5
+
+	local LocalPlayer = game:GetService("Players").LocalPlayer
+	local Character = LocalPlayer.Character
+	local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+
+	function rm()
+
+		for i,v in pairs(Character:GetDescendants()) do
+			if v:IsA("BasePart") then
+				if v.Name == "Handle" or v.Name == "Head" then
+					if Character.Head:FindFirstChild("OriginalSize") then
+						Character.Head.OriginalSize:Destroy()
+					end
+				else
+					for i,cav in pairs(v:GetDescendants()) do
+						if cav:IsA("Attachment") then
+							if cav:FindFirstChild("OriginalPosition") then
+								cav.OriginalPosition:Destroy() 
+							end
+						end
+					end
+					v:FindFirstChild("OriginalSize"):Destroy()
+					if v:FindFirstChild("AvatarPartScaleType") then
+						v:FindFirstChild("AvatarPartScaleType"):Destroy()
+					end
+				end
+			end
+		end
+	end
+
+
+	if size == 1 then
+		rm()
+		wait(0.5)
+		Humanoid:FindFirstChild("BodyProportionScale"):Destroy()
+		wait(1)
+	end
+
+	if size == 2 then
+		rm()
+		wait(0.5)
+		Humanoid:FindFirstChild("BodyProportionScale"):Destroy()
+		wait(1)
+
+		rm()
+		wait(0.5)
+		Humanoid:FindFirstChild("BodyHeightScale"):Destroy()
+		wait(1)
+	end
+
+	if size == 3 then
+		rm()
+		wait(0.5)
+		Humanoid:FindFirstChild("BodyProportionScale"):Destroy()
+		wait(1)
+
+		rm()
+		wait(0.5)
+		Humanoid:FindFirstChild("BodyHeightScale"):Destroy()
+		wait(1)
+
+		rm()
+		wait(0.5)
+		Humanoid:FindFirstChild("BodyWidthScale"):Destroy()
+		wait(1)
+	end
+
+	if size == 4 then
+		rm()
+		wait(0.5)
+		Humanoid:FindFirstChild("BodyProportionScale"):Destroy()
+		wait(1)
+
+		rm()
+		wait(0.5)
+		Humanoid:FindFirstChild("BodyHeightScale"):Destroy()
+		wait(1)
+
+		rm()
+		wait(0.5)
+		Humanoid:FindFirstChild("BodyWidthScale"):Destroy()
+		wait(1)
+
+		rm()
+		wait(0.5)
+		Humanoid:FindFirstChild("BodyDepthScale"):Destroy()
+		wait(1)
+	end
+
+
+	if size == 5 then
+		rm()
+		wait(0.5)
+		Humanoid:FindFirstChild("BodyProportionScale"):Destroy()
+		wait(1)
+
+		rm()
+		wait(0.5)
+		Humanoid:FindFirstChild("BodyHeightScale"):Destroy()
+		wait(1)
+
+		rm()
+		wait(0.5)
+		Humanoid:FindFirstChild("BodyWidthScale"):Destroy()
+		wait(1)
+
+		rm()
+		wait(0.5)
+		Humanoid:FindFirstChild("BodyDepthScale"):Destroy()
+		wait(1)
+
+		rm()
+		wait(0.5)
+		Humanoid:FindFirstChild("HeadScale"):Destroy()
+		wait(1)
+	end
+end)
+
+UICorner_6.Parent = SIZE
+
+Spam.Name = "Spam"
+Spam.Parent = Frame_2
+Spam.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Spam.Position = UDim2.new(0.0699163228, 0, 0.383202106, 0)
+Spam.Size = UDim2.new(0, 190, 0, 22)
+Spam.Font = Enum.Font.FredokaOne
+Spam.Text = "Spam DOR"
+Spam.TextColor3 = Color3.fromRGB(255, 255, 255)
+Spam.TextScaled = true
+Spam.TextSize = 14.000
+Spam.TextWrapped = true
+Spam.MouseButton1Down:connect(function()
+	local settings = {
+		AutoChat_Time = 1,
+		AutoChat_Delay = 1,
+		AutoChat = true,
+	}
+
+	local chatrem = game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest
+
+	while task.wait(settings.AutoChat_Time) do
+		chatrem:FireServer('GLORY TO D.O.R!', "All")
+		print("Sent Message")
+	end
+end)
+
+
+UICorner_7.Parent = Spam
+
+walkwall.Name = "walkwall"
+walkwall.Parent = Frame_2
+walkwall.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+walkwall.Position = UDim2.new(0.0699163228, 0, 0.467191607, 0)
+walkwall.Size = UDim2.new(0, 190, 0, 22)
+walkwall.Font = Enum.Font.FredokaOne
+walkwall.Text = "WALK WALL"
+walkwall.TextColor3 = Color3.fromRGB(255, 255, 255)
+walkwall.TextScaled = true
+walkwall.TextSize = 14.000
+walkwall.TextWrapped = true
+walkwall.MouseButton1Down:connect(function()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/sinret/rbxscript.com-scripts-reuploads-/main/WalkOnWalls", true))()
+end)
+
+
+UICorner_8.Parent = walkwall
+
+ClickTP.Name = "ClickTP"
+ClickTP.Parent = Frame_2
+ClickTP.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ClickTP.Position = UDim2.new(0.0699163228, 0, 0.543307185, 0)
+ClickTP.Size = UDim2.new(0, 190, 0, 22)
+ClickTP.Font = Enum.Font.FredokaOne
+ClickTP.Text = "CTRL+Click TP"
+ClickTP.TextColor3 = Color3.fromRGB(255, 255, 255)
+ClickTP.TextScaled = true
+ClickTP.TextSize = 14.000
+ClickTP.TextWrapped = true
+ClickTP.MouseButton1Down:connect(function()
+	local UIS = game:GetService("UserInputService")
+
+	local Player = game.Players.LocalPlayer
+	local Mouse = Player:GetMouse()
+
+
+	function GetCharacter()
+		return game.Players.LocalPlayer.Character
+	end
+
+	function Teleport(pos)
+		local Char = GetCharacter()
+		if Char then
+			Char:MoveTo(pos)
+		end
+	end
+
+
+	UIS.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 and UIS:IsKeyDown(Enum.KeyCode.LeftControl) then
+			Teleport(Mouse.Hit.p)
+		end
+	end)
+end)
+
+UICorner_9.Parent = ClickTP
+
+Speed.Name = "Speed"
+Speed.Parent = Frame_2
+Speed.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Speed.Position = UDim2.new(0.0699163228, 0, 0.629921257, 0)
+Speed.Size = UDim2.new(0, 190, 0, 22)
+Speed.Font = Enum.Font.FredokaOne
+Speed.Text = "Speed"
+Speed.TextColor3 = Color3.fromRGB(255, 255, 255)
+Speed.TextScaled = true
+Speed.TextSize = 14.000
+Speed.TextWrapped = true
+Speed.MouseButton1Down:connect(function()
+	loadstring(game:HttpGet("https://pastebin.com/raw/1kmTiaxS"))()
+end)
+
+UICorner_10.Parent = Speed
+
+Jump.Name = "Jump"
+Jump.Parent = Frame_2
+Jump.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Jump.Position = UDim2.new(0.0699163228, 0, 0.703412056, 0)
+Jump.Size = UDim2.new(0, 190, 0, 22)
+Jump.Font = Enum.Font.FredokaOne
+Jump.Text = "JumpHACK"
+Jump.TextColor3 = Color3.fromRGB(255, 255, 255)
+Jump.TextScaled = true
+Jump.TextSize = 14.000
+Jump.TextWrapped = true
+Jump.MouseButton1Down:connect(function()
+	-- //~ F to toggle ~\ --
+	-- I have no idea who made this! 
+	_G.infinjump = true
+
+	local Player = game:GetService("Players").LocalPlayer
+	local Mouse = Player:GetMouse()
+	Mouse.KeyDown:connect(function(k)
+		if _G.infinjump then
+			if k:byte() == 32 then
+				Humanoid = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+				Humanoid:ChangeState("Jumping")
+				wait(0.1)
+				Humanoid:ChangeState("Seated")
+			end
+		end
+	end)
+
+	local Player = game:GetService("Players").LocalPlayer
+	local Mouse = Player:GetMouse()
+	Mouse.KeyDown:connect(function(k)
+		k = k:lower()
+		if k == "f" then
+			if _G.infinjump == true then
+				_G.infinjump = false
+			else
+				_G.infinjump = true
+			end
+		end
+	end)
+
+end)
+
+UICorner_11.Parent = Jump
+
+Fling.Name = "Fling"
+Fling.Parent = Frame_2
+Fling.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Fling.Position = UDim2.new(0.0699163228, 0, 0.790026248, 0)
+Fling.Size = UDim2.new(0, 190, 0, 22)
+Fling.Font = Enum.Font.FredokaOne
+Fling.Text = "Fling"
+Fling.TextColor3 = Color3.fromRGB(255, 255, 255)
+Fling.TextScaled = true
+Fling.TextSize = 14.000
+Fling.TextWrapped = true
+Fling.MouseButton1Down:connect(function()
+	power = 5000000 -- change this to make it more or less powerful
+
+	game:GetService('RunService').Stepped:connect(function()
+		game.Players.LocalPlayer.Character.Head.CanCollide = false
+		game.Players.LocalPlayer.Character.UpperTorso.CanCollide = false
+		game.Players.LocalPlayer.Character.LowerTorso.CanCollide = false
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = false
+	end)
+	wait(.1)
+	local bambam = Instance.new("BodyThrust")
+	bambam.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+	bambam.Force = Vector3.new(power,0,power)
+	bambam.Location = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+end)
+
+
+UICorner_12.Parent = Fling
+
+local UIS = game:GetService('UserInputService')
+
+local frame = script.Parent
+
+
+
+local dragToggle = nil
+
+local dragSpeed = 0.25
+
+local dragStart = nil
+
+local startPos = nil
+
+
+
+local function updateInput(input)
+
+	local delta = input.Position - dragStart
+
+	local position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
+
+		startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+
+	game:GetService('TweenService'):Create(frame, TweenInfo.new(dragSpeed), {Position = position}):Play()
+
+end
+
+
+
+frame.InputBegan:Connect(function(input)
+
+	if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then 
+
+		dragToggle = true
+
+		dragStart = input.Position
+
+		startPos = frame.Position
+
+		input.Changed:Connect(function()
+
+			if input.UserInputState == Enum.UserInputState.End then
+
+				dragToggle = false
+
+			end
+
+		end)
+
+	end
+
+end)
+
+
+
+UIS.InputChanged:Connect(function(input)
+
+	if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+
+		if dragToggle then
+
+			updateInput(input)
+
+		end
+
+	end
+
+end)
